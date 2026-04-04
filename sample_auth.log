@@ -1,0 +1,34 @@
+Apr  1 02:14:01 server sshd[1042]: Failed password for root from 203.0.113.45 port 22 ssh2
+Apr  1 02:14:03 server sshd[1042]: Failed password for root from 203.0.113.45 port 22 ssh2
+Apr  1 02:14:05 server sshd[1042]: Failed password for root from 203.0.113.45 port 22 ssh2
+Apr  1 02:14:07 server sshd[1042]: Failed password for root from 203.0.113.45 port 22 ssh2
+Apr  1 02:14:09 server sshd[1042]: Failed password for root from 203.0.113.45 port 22 ssh2
+Apr  1 02:14:11 server sshd[1042]: Failed password for root from 203.0.113.45 port 22 ssh2
+Apr  1 02:14:13 server sshd[1042]: Accepted password for root from 203.0.113.45 port 22 ssh2
+Apr  1 03:47:22 server sshd[1099]: Invalid user oracle from 198.51.100.8 port 4422 ssh2
+Apr  1 03:47:23 server sshd[1099]: Invalid user testuser from 198.51.100.8 port 4422 ssh2
+Apr  1 03:47:24 server sshd[1099]: Invalid user admin from 198.51.100.8 port 4423 ssh2
+Apr  1 03:47:25 server sshd[1099]: Received disconnect from 198.51.100.8 port 4424:11: [preauth]
+Apr  1 03:47:26 server sshd[1099]: Received disconnect from 198.51.100.8 port 4425:11: [preauth]
+Apr  1 03:47:27 server sshd[1099]: Received disconnect from 198.51.100.8 port 4426:11: [preauth]
+Apr  1 03:47:28 server sshd[1099]: Received disconnect from 198.51.100.8 port 4427:11: [preauth]
+Apr  1 03:47:29 server sshd[1099]: Received disconnect from 198.51.100.8 port 4428:11: [preauth]
+Apr  1 03:47:30 server sshd[1099]: Received disconnect from 198.51.100.8 port 4429:11: [preauth]
+Apr  1 03:47:31 server sshd[1099]: Received disconnect from 198.51.100.8 port 4430:11: [preauth]
+Apr  1 03:47:32 server sshd[1099]: Received disconnect from 198.51.100.8 port 4431:11: [preauth]
+Apr  1 03:47:33 server sshd[1099]: Received disconnect from 198.51.100.8 port 4432:11: [preauth]
+Apr  1 03:47:34 server sshd[1099]: Received disconnect from 198.51.100.8 port 4433:11: [preauth]
+Apr  1 03:47:35 server sshd[1099]: Received disconnect from 198.51.100.8 port 4434:11: [preauth]
+Apr  1 08:30:01 server sshd[1200]: Accepted password for vagrant from 192.168.1.10 port 54321 ssh2
+Apr  1 09:15:44 server sshd[1215]: Failed password for invalid user deploy from 10.10.10.5 port 22 ssh2
+Apr  1 09:15:46 server sshd[1215]: Failed password for invalid user deploy from 10.10.10.5 port 22 ssh2
+Apr  1 09:15:48 server sshd[1215]: Failed password for invalid user deploy from 185.220.101.5 port 22 ssh2
+Apr  1 09:15:50 server sshd[1215]: Failed password for invalid user deploy from 91.108.4.20 port 22 ssh2
+Apr  1 11:00:10 server sudo: jay : command not allowed ; TTY=pts/0 ; PWD=/home/jay ; USER=root ; COMMAND=/bin/bash
+Apr  1 14:22:05 server sshd[1300]: Failed password for newguy from 172.16.0.55 port 22 ssh2
+Apr  1 14:22:07 server sshd[1300]: Failed password for newguy from 172.16.0.55 port 22 ssh2
+Apr  1 14:22:09 server sshd[1300]: Accepted password for newguy from 172.16.0.55 port 22 ssh2
+Apr  2 01:05:33 server sshd[1410]: Failed password for admin from 45.33.32.156 port 22 ssh2
+Apr  2 01:05:35 server sshd[1410]: Failed password for admin from 45.33.32.156 port 22 ssh2
+Apr  2 01:05:37 server sshd[1410]: Failed password for admin from 45.33.32.156 port 22 ssh2
+Apr  2 01:05:39 server sshd[1410]: Accepted password for admin from 45.33.32.156 port 22 ssh2
