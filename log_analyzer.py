@@ -3,7 +3,7 @@
 ================================================================================
   AuthGuard Log Analyzer v1.2
   Author: Jayden Harper
-  GitHub: github.com/jaydenharper/authguard-log-analyzer
+  GitHub: github.com/jhars2/authguard-log-analyzer
 
   Description:
       A cross-platform authentication log analysis tool built for SOC
