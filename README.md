@@ -1,6 +1,6 @@
 # AuthGuard Log Analyzer
 
-A cross-platform authentication log analysis tool built for SOC (Security Operations Center) use. Parses Linux auth logs and Windows Security Event Logs to detect suspicious authentication behavior and generate professional incident reports.
+A cross-platform authentication log analysis tool built for SOC use. Parses Linux auth logs and Windows Security Event Logs to detect suspicious authentication behavior and generate professional incident reports.
 
 ---
 
@@ -25,12 +25,12 @@ AuthGuard scans system authentication logs and automatically flags 10 categories
 
 ## Features
 
-- **Auto-detects OS** — no flags or arguments needed. Routes to Linux (`/var/log/auth.log`) or Windows Security Event Log automatically.
-- **Memory-efficient** — reads logs line-by-line using generators. Handles large production logs without loading them fully into memory.
-- **Single O(n) pass** — one read through the file, all detections evaluated simultaneously.
-- **Colorized terminal output** — severity-coded findings printed inline as the scan completes.
-- **Professional report file** — auto-generated `.txt` report with executive summary, detailed findings, and recommendations. Follows SOC documentation standards.
-- **Tunable thresholds** — brute force sensitivity, business hours window, and baseline users/IPs are all configurable at the top of the script.
+- **Auto-detects OS** - no flags or arguments needed. Routes to Linux (`/var/log/auth.log`) or Windows Security Event Log automatically.
+- **Memory-efficient** - reads logs line-by-line using generators. Handles large production logs without loading them fully into memory.
+- **Single O(n) pass** - one read through the file, all detections evaluated simultaneously.
+- **Colorized terminal output** - severity-coded findings printed inline as the scan completes.
+- **Professional report file** - auto-generated `.txt` report with executive summary, detailed findings, and recommendations. Follows SOC documentation standards.
+- **Tunable thresholds** - brute force sensitivity, business hours window, and baseline users/IPs are all configurable at the top of the script.
 
 ---
 
@@ -97,7 +97,7 @@ KNOWN_IPS   = {"127.0.0.1"}       # trusted IP addresses
 
 ---
 
-## Skills Demonstrated
+## Skills
 
 - Python (regex, generators, defaultdict, datetime arithmetic)
 - Linux system administration & log structure
@@ -123,5 +123,3 @@ A realistic fake `sample_auth.log` is included for testing and demo purposes. It
 - [ ] Email alerting on CRITICAL findings
 
 ---
-
-*Built as part of a cybersecurity portfolio targeting SOC Analyst and Security Analyst roles.*
