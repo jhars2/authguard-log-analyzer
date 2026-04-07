@@ -1,36 +1,34 @@
 # AuthGuard Log Analyzer
 
-A cross-platform authentication log analysis tool built for SOC use. Parses Linux auth logs and Windows Security Event Logs to detect suspicious authentication behavior and generate professional incident reports.
+A cross-platform authentication log analysis tool built for SOC (Security Operations Center) use. Point it at your system logs and it automatically detects the attack patterns that matter — brute force attempts, credential compromise, privilege escalation, and more — then generates a structured incident report.
 
 ---
 
-## What It Does
-
-AuthGuard scans system authentication logs and automatically flags 10 categories of suspicious activity — the same patterns real SOC analysts look for daily.
+## What It Detects
 
 | # | Detection | Severity |
 |---|-----------|----------|
 | 1 | Brute Force Attempts | CRITICAL |
 | 2 | Successful Login After Multiple Failures | CRITICAL |
-| 3 | Logins at Unusual Hours | HIGH / MEDIUM |
-| 4 | New / Unknown User Login | MEDIUM |
-| 5 | Credential Stuffing (Multi-IP per User) | HIGH |
-| 6 | Root / Admin Login Attempts | HIGH |
-| 7 | Logins from Unknown IPs | MEDIUM |
-| 8 | Account Lockouts | HIGH |
-| 9 | Privilege Escalation Attempts (sudo / Event 4672) | HIGH |
+| 3 | Root / Admin Login Attempts | HIGH |
+| 4 | Credential Stuffing (Multi-IP per User) | HIGH |
+| 5 | Privilege Escalation Attempts (sudo / Event 4672) | HIGH |
+| 6 | Account Lockouts | HIGH |
+| 7 | Logins at Unusual Hours | HIGH / MEDIUM |
+| 8 | New / Unknown User Login | MEDIUM |
+| 9 | Logins from Unknown IPs | MEDIUM |
 | 10 | SSH Anomalies (invalid users, pre-auth scans) | MEDIUM |
 
 ---
 
 ## Features
 
-- **Auto-detects OS** - no flags or arguments needed. Routes to Linux (`/var/log/auth.log`) or Windows Security Event Log automatically.
-- **Memory-efficient** - reads logs line-by-line using generators. Handles large production logs without loading them fully into memory.
-- **Single O(n) pass** - one read through the file, all detections evaluated simultaneously.
-- **Colorized terminal output** - severity-coded findings printed inline as the scan completes.
-- **Professional report file** - auto-generated `.txt` report with executive summary, detailed findings, and recommendations. Follows SOC documentation standards.
-- **Tunable thresholds** - brute force sensitivity, business hours window, and baseline users/IPs are all configurable at the top of the script.
+- **Auto-detects OS and log source** — routes to Linux (journald or flat log files) or Windows Security Event Log automatically. No arguments needed.
+- **Memory-efficient** — reads logs line-by-line using generators. Handles large production logs without loading them into memory.
+- **Single O(n) pass** — one read through the log, all 10 detections evaluated simultaneously.
+- **Colorized terminal output** — severity-coded findings printed inline as the scan runs.
+- **Professional incident report** — auto-generated `.txt` report with executive summary, detailed findings, and actionable recommendations.
+- **Tunable thresholds** — brute force window, business hours, and trusted user/IP baselines are all configurable at the top of the script.
 
 ---
 
@@ -38,15 +36,14 @@ AuthGuard scans system authentication logs and automatically flags 10 categories
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/authguard-log-analyzer.git
+git clone https://github.com/jhars2/authguard-log-analyzer.git
 cd authguard-log-analyzer
 
-# Run against your system logs (Linux/macOS — may need sudo for /var/log/auth.log)
-python3 log_analyzer.py
+# Run against your system logs (requires sudo on most Linux systems)
+sudo python3 log_analyzer.py
 
-# Or run against the included sample log to see it in action
-# (Edit log_source in main() to point to sample_auth.log)
-python3 log_analyzer.py
+# Run against the included sample log — no sudo needed, works on any OS
+python3 log_analyzer.py --sample
 ```
 
 **Windows** — requires `pywin32`:
@@ -59,37 +56,48 @@ python log_analyzer.py
 
 ## Sample Output
 
-```
-======================================================================
-  AUTHGUARD LOG ANALYZER — LINUX
-======================================================================
-  Scan completed at: 2026-04-01 14:33:02
-  Total findings:    9
-
-  [CRITICAL] Finding #001 — Brute Force Attempt
-             Time   : Apr  1 02:14:01
-             Detail : User 'root' had 6 failed login attempts within a
-                      10-minute window. Source IPs: 203.0.113.45
-
-  [CRITICAL] Finding #002 — Successful Login After Multiple Failures
-             Time   : Apr  1 02:14:13
-             Detail : User 'root' logged in successfully from 203.0.113.45
-                      after 6 prior failure(s). Possible credential compromise.
-...
-```
-
-A full `.txt` report is generated automatically in the same directory.
-
 ![AuthGuard terminal output](screenshot.png)
+
+```
+======================================================================
+  AuthGuard Log Analyzer v1.2
+======================================================================
+  Analyst name (Enter to skip) : Jayden Harper
+  System label (e.g. web-01)   : debian-homelab
+
+  OS detected : Linux
+  Log source  : systemd journal (journalctl)
+  Querying journal for auth events...
+
+  [*] 1254 entries retrieved
+
+======================================================================
+  SCAN RESULTS — LINUX
+  Source: systemd journal (journalctl)
+======================================================================
+  Completed : 2026-04-07 18:08:48
+  Findings  : 24
+
+  [CRITICAL]  1 finding(s)
+  [HIGH]      18 finding(s)
+  [MEDIUM]    5 finding(s)
+
+  [CRITICAL] #001 — Brute Force Attempt
+             Time   : Apr 07 17:42:49
+             Detail : 'root' had 11 failed logins within 10 minutes — source IPs: ::1
+  ...
+```
+
+A full `.txt` incident report is saved automatically in the same directory.
 
 ---
 
 ## Configuration
 
-At the top of `log_analyzer.py`, adjust these constants:
+At the top of `log_analyzer.py`, adjust these constants to fit the system being analyzed:
 
 ```python
-BRUTE_FORCE_THRESHOLD      = 5    # failures to trigger brute force alert
+BRUTE_FORCE_THRESHOLD      = 5    # failed logins to trigger brute force alert
 BRUTE_FORCE_WINDOW_MINUTES = 10   # time window for brute force detection
 NORMAL_HOURS_START         = 7    # business hours start (24h)
 NORMAL_HOURS_END           = 20   # business hours end (24h)
@@ -99,29 +107,30 @@ KNOWN_IPS   = {"127.0.0.1"}       # trusted IP addresses
 
 ---
 
-## Skills
+## How It Works
 
-- Python (regex, generators, defaultdict, datetime arithmetic)
-- Linux system administration & log structure
-- Windows Event Log parsing
-- SOC detection logic & threshold-based alerting
-- Incident report documentation
-- Cross-platform software design
+The analyzer performs a single O(n) pass through the log file, running all regex patterns against each line simultaneously rather than making multiple passes. Per-user state (failure counts, source IPs, timestamps) is accumulated during the pass, and threshold-based detections like brute force are evaluated after the full log has been read.
+
+On modern Linux systems (Debian, Ubuntu, Arch), logs are read directly from the systemd journal via `journalctl`. On older systems or RHEL-based distros, it falls back to flat log files (`/var/log/auth.log`, `/var/log/secure`). Windows pulls from the Security Event Log via `pywin32`.
 
 ---
 
 ## Sample Log
 
-A realistic fake `sample_auth.log` is included for testing and demo purposes. It contains examples of every detection type the tool flags.
+A realistic `sample_auth.log` is included for testing and demo purposes. It contains examples of every detection type and can be used on any OS without elevated permissions:
+
+```bash
+python3 log_analyzer.py --sample
+```
 
 ---
 
 ## Future Improvements
 
 - [ ] Geolocation lookup for flagged IPs (MaxMind GeoLite2)
-- [ ] SIEM integration (Elastic/Splunk forwarder)
 - [ ] Threat intel feed matching (AbuseIPDB API)
 - [ ] HTML report output
+- [ ] SIEM integration (Elastic/Splunk forwarder)
 - [ ] Email alerting on CRITICAL findings
 
 ---
