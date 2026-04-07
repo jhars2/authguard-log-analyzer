@@ -96,18 +96,18 @@ SYSTEM_LABEL = platform.node()
 # Failed SSH password attempt
 # Example: "Apr  1 03:22:11 server sshd[1234]: Failed password for root from 192.168.1.5 port 22 ssh2"
 LINUX_FAIL_PATTERN = re.compile(
-    r'(\w{3}\s+\d+\s[\d:]+).*Failed password for (?:invalid user )?(\S+) from ([\d.]+)'
+    r'(\w{3}\s+\d+\s[\d:]+).*Failed password for (?:invalid user )?(\S+) from ([\d.:a-fA-F]+)'
 )
 
 # Successful SSH login (password or public key)
 LINUX_SUCCESS_PATTERN = re.compile(
-    r'(\w{3}\s+\d+\s[\d:]+).*Accepted (?:password|publickey) for (\S+) from ([\d.]+)'
+    r'(\w{3}\s+\d+\s[\d:]+).*Accepted (?:password|publickey) for (\S+) from ([\d.:a-fA-F]+)'
 )
 
 # SSH attempt using a username that doesn't exist on the system
 # Example: "Invalid user oracle from 198.51.100.8"
 LINUX_INVALID_USER_PATTERN = re.compile(
-    r'(\w{3}\s+\d+\s[\d:]+).*Invalid user (\S+) from ([\d.]+)'
+    r'(\w{3}\s+\d+\s[\d:]+).*Invalid user (\S+) from ([\d.:a-fA-F]+)'
 )
 
 # Unauthorized sudo attempt (classic auth.log format)
@@ -125,7 +125,7 @@ LINUX_SUDO_USE_PATTERN = re.compile(
 
 # SSH pre-authentication disconnect — strong indicator of automated scanning
 LINUX_PREAUTH_PATTERN = re.compile(
-    r'(\w{3}\s+\d+\s[\d:]+).*Received disconnect from ([\d.]+).*\[preauth\]'
+    r'(\w{3}\s+\d+\s[\d:]+).*Received disconnect from ([\d.:a-fA-F]+).*\[preauth\]'
 )
 
 # PAM account lockout
@@ -173,7 +173,7 @@ def read_journal_lines() -> list[str]:
                 "--no-pager",
                 "-o", "short",
                 "--since", "30 days ago",
-                "--grep", "sshd|sudo|Failed password|Accepted|Invalid user|pam_unix",
+                "--grep", "sshd|sshd-session|sudo|Failed password|Accepted|Invalid user|pam_unix",
             ],
             capture_output=True,
             text=True,
