@@ -63,7 +63,7 @@ python log_analyzer.py
 ======================================================================
   AUTHGUARD LOG ANALYZER — LINUX
 ======================================================================
-  Scan completed at: 2025-04-01 14:33:02
+  Scan completed at: 2026-04-01 14:33:02
   Total findings:    9
 
   [CRITICAL] Finding #001 — Brute Force Attempt
@@ -79,6 +79,8 @@ python log_analyzer.py
 ```
 
 A full `.txt` report is generated automatically in the same directory.
+
+![AuthGuard terminal output](screenshot.png)
 
 ---
 
