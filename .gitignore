@@ -1,2 +1,4 @@
 authguard_report_*.txt
 *.swp
+*.un~
+authguard_report_*.txt
